@@ -1,4 +1,4 @@
-package com.rizikh.wfc.model;
+package com.rizikh.wfc.catalog;
 
 public record TileType(int id, String name, double weight) {
 

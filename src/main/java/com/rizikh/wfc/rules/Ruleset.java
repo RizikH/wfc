@@ -3,7 +3,7 @@ package com.rizikh.wfc.rules;
 import java.util.BitSet;
 
 import com.rizikh.wfc.core.Direction;
-import com.rizikh.wfc.model.RoadTile;
+import com.rizikh.wfc.tiles.RoadTile;
 
 public final class Ruleset {
 

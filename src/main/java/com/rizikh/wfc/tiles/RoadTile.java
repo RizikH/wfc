@@ -1,4 +1,4 @@
-package com.rizikh.wfc.model;
+package com.rizikh.wfc.tiles;
 
 import com.rizikh.wfc.core.Direction;
 
