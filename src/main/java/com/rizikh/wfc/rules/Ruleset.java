@@ -81,4 +81,16 @@ public final class Ruleset {
     public int tileCount() {
         return RoadTile.values().length;
     }
+
+    /**
+     * Provides direct access to the allowed BitSet for a given tile ID and
+     * direction.
+     * 
+     * @param tileId The ID of the reference tile.
+     * @param dir    The direction to check.
+     * @return The BitSet of allowed neighboring tiles.
+     */
+    public BitSet allowedMaskRef(int tileId, Direction dir) {
+    return allowed[tileId][dir.ordinal()];
+}
 }
