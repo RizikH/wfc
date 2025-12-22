@@ -1,4 +1,4 @@
-package com.rizikh;
+package com.rizikh.wfc;
 
 /**
  * Hello world!
