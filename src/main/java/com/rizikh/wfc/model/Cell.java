@@ -87,4 +87,5 @@ public class Cell {
     public boolean restrictTo(BitSet allowed) {
         return domain.restrictTo(allowed);
     }
+    
 }

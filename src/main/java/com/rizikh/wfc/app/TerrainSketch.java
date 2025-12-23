@@ -7,14 +7,14 @@ import processing.event.MouseEvent;
 import com.rizikh.wfc.model.Grid;
 import com.rizikh.wfc.model.Cell;
 import com.rizikh.wfc.rules.Ruleset;
-import com.rizikh.wfc.rules.RoadRuleset;
+import com.rizikh.wfc.rules.TerrainRuleset;      // <-- your terrain ruleset
 import com.rizikh.wfc.solver.WfcSolver;
-import com.rizikh.wfc.tiles.RoadTile;
+import com.rizikh.wfc.tiles.TerrainTile;
 
 import java.util.EnumMap;
 
 /**
- * Processing-based runner for the Wave Function Collapse solver.
+ * Processing-based runner for the TERRAIN Wave Function Collapse solver.
  * Handles visualization and stepping; contains no solver logic.
  *
  * Controls:
@@ -22,19 +22,19 @@ import java.util.EnumMap;
  * - Left-drag: pan (drag the world)
  * - Space: restart simulation
  */
-public class WfcSketch extends PApplet {
+public class TerrainSketch extends PApplet {
 
-    private static final int GRID_WIDTH  = 20;
-    private static final int GRID_HEIGHT = 20;
-    private static final int CELL_SIZE   = 32;
+    private static final int GRID_WIDTH  = 30;
+    private static final int GRID_HEIGHT = 30;
+    private static final int CELL_SIZE   = 30;
 
     private Grid grid;
     private Ruleset ruleset;
     private WfcSolver solver;
 
-    private EnumMap<RoadTile, PImage> tileImages;
+    private EnumMap<TerrainTile, PImage> tileImages;
 
-    private int stepsPerFrame = 1;
+    private int stepsPerFrame = 100;
 
     // -------------------------
     // Camera (zoom + pan)
@@ -51,7 +51,7 @@ public class WfcSketch extends PApplet {
     private int lastMouseY;
 
     public static void main(String[] args) {
-        PApplet.main(WfcSketch.class);
+        PApplet.main(TerrainSketch.class);
     }
 
     @Override
@@ -100,12 +100,12 @@ public class WfcSketch extends PApplet {
     }
 
     private void resetSimulation() {
-        ruleset = new RoadRuleset();
+        ruleset = new TerrainRuleset(); // must match TerrainTile.count()
         grid = new Grid(GRID_WIDTH, GRID_HEIGHT, ruleset.tileCount());
         solver = new WfcSolver(grid, ruleset);
 
         if (tileImages == null) {
-            loadRoadTileImages();
+            loadTerrainTileImages();
         }
 
         // Optional: start centered (nice default)
@@ -186,13 +186,18 @@ public class WfcSketch extends PApplet {
     }
 
     /**
-     * Load Road tile images into the tileImages map.
+     * Load Terrain tile images into the tileImages map.
+     * Expects files at: data/tiles/<enum_name_lowercase>.png
+     *
+     * Examples:
+     * - GRASS.png -> tiles/grass.png
+     * - GRASS_TREES -> tiles/grass_trees.png
      */
-    private void loadRoadTileImages() {
-        tileImages = new EnumMap<>(RoadTile.class);
+    private void loadTerrainTileImages() {
+        tileImages = new EnumMap<>(TerrainTile.class);
 
-        for (RoadTile tile : RoadTile.values()) {
-            String filename = "tiles/" + tile.name().toLowerCase() + ".png";
+        for (TerrainTile tile : TerrainTile.values()) {
+            String filename = "terrain/" + tile.name().toLowerCase() + ".png";
             PImage img = loadImage(filename);
 
             if (img == null) {
@@ -237,7 +242,9 @@ public class WfcSketch extends PApplet {
     }
 
     private void drawTile(int tileId, int px, int py) {
-        RoadTile tile = RoadTile.values()[tileId];
+        // IMPORTANT:
+        // This assumes your tileId mapping matches TerrainTile.values() order.
+        TerrainTile tile = TerrainTile.values()[tileId];
         image(tileImages.get(tile), px, py, CELL_SIZE, CELL_SIZE);
     }
 
